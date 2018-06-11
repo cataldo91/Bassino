@@ -65,7 +65,7 @@ if (sensor >5){
   
     resetMillis();//azzero il tempo
      
-    v=(18)/(time);
+    v=((1.8)/(time))*3.6;
     s=s+0.0018;
     resetMillis();
      
@@ -105,7 +105,7 @@ if (sensor >5){
  
   }//digitalWrite(led2,HIGH);    
   
-  delay(500);
+  delay(50);
   
 //fine freni
   
