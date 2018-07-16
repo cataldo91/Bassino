@@ -7,6 +7,8 @@ CapacitiveSensor capSensor= CapacitiveSensor(4,5);
 
 
 // definisco alcuni pin
+#define trigpin A1
+#define echopin A2
 #define trigPin 13
 #define echoPin 12
 #define led A3
@@ -14,6 +16,17 @@ CapacitiveSensor capSensor= CapacitiveSensor(4,5);
 #define dx A5
 #define DHTPIN A0 //pin di lettura del dht
 #define DHTTYPE DHT11// dht11 è il tipo di sensore che uso
+
+int ledState=0;
+int ledState2=0;
+unsigned long previousMillis = 0; //memorizza l'ultimo tempo di aggiornamento
+unsigned long interval = 60; //intervallo di azione
+unsigned long previousMillis2 = 0;
+unsigned long interval2 = 80;
+unsigned long previousMillis3 = 0; 
+unsigned long interval3 = 2000; 
+unsigned long previousMillis4 = 0; 
+unsigned long interval4 =30;
 
 
 extern unsigned long timer0_millis;//var per azzerare il tempo
@@ -28,13 +41,15 @@ void setup() {
   Serial.begin (9600);
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
+  pinMode(trigpin, OUTPUT);
+  pinMode(echopin, INPUT);
   pinMode(led, OUTPUT);
   pinMode(sx, OUTPUT);
   pinMode(dx, OUTPUT);
   pinMode(2, INPUT);
   pinMode (3, INPUT);
- 
   
+ 
   
   // i numeri all'interno di LCD indicano le righe e le colonne disponibili 
   lcd.begin(16, 2);
@@ -52,41 +67,56 @@ void setup() {
 void loop() {
   long sensor=capSensor.capacitiveSensor(5);
   float time,time2,v;
-  long duration, distance, pressione, pressione2;
+  long duration, distance, duration2, distance2,pressione, pressione2;
+  unsigned long currentMillis = millis();
   
   //calcolo velocità
-if (sensor >5){
-  Serial.println(sensor);
-   time=millis();
-   time=time/1000;
-   Serial.print("sec ");
-   Serial.println(time);
-  
-  
-    resetMillis();//azzero il tempo
+if(currentMillis - previousMillis2 > interval2) {
+ previousMillis2 = currentMillis;
+  if (sensor >14){
+   
+    Serial.println(sensor);
+    time=millis();
+    
+     if(time>90){
+     time=time/1000;
+     Serial.print("sec ");
+     Serial.println(time);
+
+      v=((1.8)/(time))*3.6;
+      s=s+0.0018;
+      resetMillis();// azzero il tempo
      
-    v=((1.8)/(time))*3.6;
-    s=s+0.0018;
-    resetMillis();
-     
-    Serial.print("velocità");
-    Serial.println(s);
-    lcd.setCursor(7, 0);
-    lcd.print(v);
-    lcd.setCursor(7, 1);
-    lcd.print(s);
-    delay(20);
-  }
- time2=millis();
-    if(time2>1500){
+     //delay(20);
+      Serial.print("velocità");
+      Serial.println(v);
+      Serial.println(s);
+      lcd.setCursor(7, 0);
+      lcd.print(v);
+      lcd.setCursor(7, 1);
+      lcd.print(s);
+      }
+   
+    }
+   time2=millis();
+  if(time2>1500){
     v=0.000;  
     lcd.setCursor(7, 0); 
     lcd.print(v);
-    }  
- 
+  }  
+}
  //fine calcolo velocità 
   
+  
+  
+  
+  
+  
 //inizio freni  
+
+if(currentMillis - previousMillis4 > interval4) {
+ previousMillis4 = currentMillis;
+
   digitalWrite(trigPin, LOW); 
   delayMicroseconds(2); 
   digitalWrite(trigPin, HIGH);
@@ -94,67 +124,99 @@ if (sensor >5){
   digitalWrite(trigPin, LOW);
   duration = pulseIn(echoPin, HIGH);
   distance = (duration/2) / 29.1;
-  if (distance < 4) { 
+  
+   
+  digitalWrite(trigpin, LOW); 
+  delayMicroseconds(2); 
+  digitalWrite(trigpin, HIGH);
+  delayMicroseconds(10); 
+  digitalWrite(trigpin, LOW);
+  duration2 = pulseIn(echopin, HIGH);
+  distance2 = (duration2/2) / 29.1;
+
+  if (distance < 5 || distance2<5) { 
+ 
+    digitalWrite(led,HIGH); 
  
   
-  digitalWrite(led,HIGH); 
+   }    else {    
+     
+    digitalWrite(led,LOW); 
  
+    }
+}
   
- }   else {    
-  digitalWrite(led,LOW); 
- 
-  }//digitalWrite(led2,HIGH);    
-  
-  delay(50);
-  
+
 //fine freni
   
 
 
 
-  //start lettura temperatura
-int t= dht.readTemperature();
-int h = dht.readHumidity();
-lcd.setCursor(0, 0);
-lcd.print(t);
-lcd.setCursor(0, 1);
-lcd.print(h);
+
+
+//start lettura temperatura
+
+
+if(currentMillis - previousMillis3 > interval3) {
+   previousMillis3 = currentMillis;
   
+  int t= dht.readTemperature();
+  int h = dht.readHumidity();
+  lcd.setCursor(0, 0);
+  lcd.print(t);
+  lcd.setCursor(0, 1);
+  lcd.print(h);
+}
+
   //fine lettura temperatura
+  
+  
+  
   
   //inizializzo i pulsanti per le frecce
 pressione=digitalRead(2);
 pressione2=digitalRead(3);
   
+if(currentMillis - previousMillis > interval) {
+  previousMillis = currentMillis; //salvo il tempo
   
-if (pressione==HIGH  && pressione2==LOW){// partono le frecce di sinistra
-   digitalWrite(sx,HIGH);
-   delay(120);
-   digitalWrite(sx,LOW);
-   delay(70);
+  //freccesx(pressione,pressione2);
+  
+ if (pressione==HIGH  && pressione2==LOW){// partono le frecce di sinistra
+     ledState2 ^= 1;
+     digitalWrite(sx, ledState2);
   }
- else{
-    digitalWrite(sx,LOW) ;
-    }
-    
-    
-     
+   else{
+     ledState2=0;
+     digitalWrite(sx,ledState2) ;
+  }
+
   
   if (pressione2==HIGH && pressione==LOW){// partono le frecce di destra
-   digitalWrite(dx,HIGH);
-   delay(120);
-   digitalWrite(dx,LOW);
-   delay(70);
+  
+    
+    ledState ^= 1;
+    digitalWrite(dx, ledState);
   }
+   
   else{
-    digitalWrite(dx,LOW) ;
+    ledState=0;
+    digitalWrite(dx,ledState) ;
     }
+}
 //fine frecce
+
+
+ currentMillis=0;
   
 }
+
+
+
 //funzione per azzerare i millisecondi
 void resetMillis() {
   cli();
   timer0_millis = 0;
   sei();
-}//funzione azzera tempo
+}
+
