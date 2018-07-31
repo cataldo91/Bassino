@@ -4,11 +4,11 @@ avere un approccio tranquillo con essa, tentando di far un minimo fronte ai mezz
 
 # Realizzazione
 ## Materiale
-Di seguito il materiale utilizzato per la realizzazione del circuito, incluse le librerie utilizzate:
+Di seguito il materiale utilizzato per la realizzazione del circuito, incluse le librerie utilizzate:  
 
-1 Arduino UNO r3
-3 Breadboard
-Jumperwire e cavetti
+1 Arduino UNO r3  
+3 Breadboard  
+Jumperwire e cavetti  
 1 Sensore DHT11
 2 Sensori ultrasuoni Hc-sr04
 2 led rossi
