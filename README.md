@@ -2,8 +2,8 @@
 Bassino nasce come una miglioria casalinga per implementare dei sistemi di sicurezza ad una bicicletta cercando di 
 avere un approccio tranquillo con essa, tentando di far un minimo fronte ai mezzi inquinanti.
 
-#Realizzazione
-##Materiale
+# Realizzazione
+## Materiale
 Di seguito il materiale utilizzato per la realizzazione del circuito, incluse le librerie utilizzate:
 
 1 Arduino UNO r3
@@ -20,7 +20,7 @@ Librerie:
 CapacitiveSensor (per la gestione del sensore capacitivo)
 DHT (per la gestione del sensore di temperatura)
 
-##Caricamento del codice
+## Caricamento del codice
 Dopo aver creato il ciruito bisognerà utilizzare l'IDE di Arduino, scaricabile cliccando [qui](https://www.arduino.cc/en/Main/Software).
 Scaricare la libreria DHT da "Sketch->Include Library->Manage Libraries" all'interno dell'IDE e cercare "DHT sensor library", 
 in seguito scaricarla.
