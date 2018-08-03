@@ -2,7 +2,7 @@
 Bassino è un progetto amatoriale di making con l'intento di implementare sistemi di sicurezza, come le luci per indicare la frenata e le frecce per il cambio direzionale, oltre ad un contachilometri che terrà conto della velocità alla quale si sta viaggiando ed un sensore di temperatura che indicherà i gradi e umidità dell'aria. Lo scopo è quello di incentivare l'uso del mezzo ad emissioni zero per far fronte a quelli utilizzati quotidianamente. 
 # Realizzazione
 ## Materiale
-Di seguito il materiale utilizzato per la realizzazione del circuito, incluse le librerie utilizzate:  
+Di seguito il materiale utilizzato per la realizzazione del circuito, incluse le librerie dei sensori:  
 
 1 Arduino UNO r3  
 3 Breadboard  
