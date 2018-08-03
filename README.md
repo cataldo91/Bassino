@@ -8,7 +8,7 @@ Di seguito il materiale utilizzato per la realizzazione del circuito, incluse le
 3 Breadboard  
 Jumperwire e cavetti  
 1 Sensore DHT11  
-1 LCD 16x2
+1 LCD 16x2   
 2 Sensori ultrasuoni Hc-sr04  
 2 led rossi  
 4 led gialli  
